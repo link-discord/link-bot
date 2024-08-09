@@ -4,7 +4,7 @@ import { Colors, EmbedBuilder } from 'discord.js'
 import { thumbsupEmoji } from '../utils/thumbsupEmoji.js'
 import { shrugEmoji } from '../utils/shrugEmoji.js'
 
-const textModel = 'mistralai/Mistral-Nemo-Instruct-2407'
+const textModel = 'mistralai/Mistral-7B-Instruct-v0.3'
 const imageModel = 'lmms-lab/LLaVA-NeXT-Interleave-Demo'
 
 export default {
