@@ -14,10 +14,15 @@ async function updateProfile() {
     console.log('Updating profile...\n')
 
     const owner = await client.users.fetch(OWNER_ID, { force: true })
+    const avatar = client.user.avatarURL({ size: 4096 })
+    const banner = client.user.bannerURL({ size: 4096, extension: 'gif' })
+
+    console.log('Avatar:', avatar)
+    console.log('Banner:', banner)
 
     try {
-        await client.user.setAvatar(owner.displayAvatarURL({ size: 4096 }))
-        await client.user.setBanner(owner.bannerURL({ size: 4096, extension: 'gif' }))
+        await client.user.setAvatar(avatar)
+        await client.user.setBanner(banner)
         console.log('Profile updated successfully\n')
     } catch (error) {
         console.error('Failed to update profile', error)
