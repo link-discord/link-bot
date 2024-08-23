@@ -14,8 +14,8 @@ async function updateProfile() {
     console.log('Updating profile...\n')
 
     const owner = await client.users.fetch(OWNER_ID, { force: true })
-    const avatar = client.user.avatarURL({ size: 4096 })
-    const banner = client.user.bannerURL({ size: 4096, extension: 'gif' })
+    const avatar = owner.avatarURL({ size: 4096 })
+    const banner = owner.bannerURL({ size: 4096, extension: 'gif' })
 
     console.log('Avatar:', avatar)
     console.log('Banner:', banner)
