@@ -28,6 +28,17 @@ async function updateAvatar() {
     }
 }
 
+client.on(Events.UserUpdate, (oldUser, newUser) => {
+    if (oldUser.id !== OWNER_ID) return
+
+    const avatarDiff = oldUser.displayAvatarURL() !== newUser.displayAvatarURL()
+    const bannerDiff = oldUser.bannerURL() !== newUser.bannerURL()
+
+    if (avatarDiff || bannerDiff) {
+        updateAvatar()
+    }
+})
+
 client.once(Events.ClientReady, async () => {
     console.log(`Logged in as ${client.user.tag}`)
 
@@ -40,16 +51,6 @@ client.once(Events.ClientReady, async () => {
 
         client.commands.set(command.name, command)
     }
-
-    let oldUser = await client.users.fetch(OWNER_ID)
-
-    setInterval(async () => {
-        const newUser = await client.users.fetch(OWNER_ID, { force: true })
-
-        if (oldUser.avatar !== newUser.avatar) await updateAvatar()
-
-        oldUser = newUser
-    }, 60_000)
 })
 
 client.on(Events.InteractionCreate, async (interaction) => {
