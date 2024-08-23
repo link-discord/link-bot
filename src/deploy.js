@@ -90,43 +90,46 @@ const commands = [
     }
 ]
 
-async function main() {
-    const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN)
-
-    try {
-        console.log('Started refreshing application (/) commands.')
-
-        for (let i = 0; i < commands.length; i++) {
-            const command = commands[i]
-
-            if (command.options != null) {
-                command.options.push({
-                    name: 'show',
-                    description: 'Show the output in the chat',
-                    type: ApplicationCommandOptionType.Boolean,
-                    required: false
-                })
-            } else {
-                command.options = [{
-                    name: 'show',
-                    description: 'Show the output in the chat',
-                    type: ApplicationCommandOptionType.Boolean,
-                    required: false
-                }]
-            }
-
-            command.integration_types = [1]
-            command.contexts = [0, 1, 2]
-        }
-
-        await rest.put(Routes.applicationCommands(process.env.DISCORD_ID), {
-            body: commands
+function addShowOptionAndMetadata(command) {
+    if (command.options != null) {
+        command.options.push({
+            name: 'show',
+            description: 'Show the output in the chat',
+            type: ApplicationCommandOptionType.Boolean,
+            required: false
         })
-
-        console.log('Successfully reloaded application (/) commands.')
-    } catch (error) {
-        console.error(error)
+    } else {
+        command.options = [
+            {
+                name: 'show',
+                description: 'Show the output in the chat',
+                type: ApplicationCommandOptionType.Boolean,
+                required: false
+            }
+        ]
     }
+
+    command.integration_types = [1]
+    command.contexts = [0, 1, 2]
+
+    return command
 }
 
-main()
+const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN)
+
+try {
+    console.log('Started refreshing application (/) commands.')
+
+    for (let i = 0; i < commands.length; i++) {
+        const command = commands[i]
+        addShowOptionAndMetadata(command)
+    }
+
+    await rest.put(Routes.applicationCommands(process.env.DISCORD_ID), {
+        body: commands
+    })
+
+    console.log('Successfully reloaded application (/) commands.')
+} catch (error) {
+    console.error(error)
+}
