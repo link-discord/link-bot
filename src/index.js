@@ -13,10 +13,19 @@ client.commands = new Map()
 async function updateAvatar() {
     const owner = await client.users.fetch(OWNER_ID)
     const avatar = owner.displayAvatarURL({ dynamic: true })
+    const banner = owner.bannerURL({ dynamic: true })
 
-    if (avatar) await client.user.setAvatar(avatar)
+    if (!avatar && !banner) return console.log('No avatar or banner found')
 
-    console.log('Updated profile picture')
+    if (avatar) {
+        console.log('Updated picture')
+        await client.user.setAvatar(avatar)
+    }
+
+    if (banner) {
+        console.log('Updated banner')
+        await client.user.setBanner(banner)
+    }
 }
 
 client.once(Events.ClientReady, async () => {
