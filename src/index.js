@@ -13,20 +13,14 @@ client.commands = new Map()
 async function updateProfile() {
     console.log('Updating profile...\n')
 
-    const owner = await client.users.fetch(OWNER_ID)
-    const avatar = owner.displayAvatarURL({ dynamic: true })
-    const banner = owner.bannerURL({ dynamic: true })
+    const owner = await client.users.fetch(OWNER_ID, { force: true })
 
-    if (!avatar && !banner) return console.log('No avatar or banner found')
-
-    if (avatar) {
-        console.log('Updated avatar')
-        await client.user.setAvatar(avatar)
-    }
-
-    if (banner) {
-        console.log('Updated banner')
-        await client.user.setBanner(banner)
+    try {
+        await client.user.setAvatar(owner.displayAvatarURL({ size: 4096 }))
+        await client.user.setBanner(owner.bannerURL({ size: 4096, extension: 'gif' }))
+        console.log('Profile updated successfully\n')
+    } catch (error) {
+        console.error('Failed to update profile', error)
     }
 }
 
@@ -42,7 +36,7 @@ client.on(Events.UserUpdate, (oldUser, newUser) => {
 })
 
 client.once(Events.ClientReady, async () => {
-    console.log(`Logged in as ${client.user.tag}`)
+    console.log(`Logged in as ${client.user.tag}\n`)
 
     const commandFiles = await fs.readdir('./src/commands')
 
