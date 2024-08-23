@@ -53,6 +53,8 @@ client.once(Events.ClientReady, async () => {
 
         client.commands.set(command.name, command)
     }
+
+    await updateProfile()
 })
 
 client.on(Events.InteractionCreate, async (interaction) => {
