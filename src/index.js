@@ -10,7 +10,9 @@ const client = new Client({
 
 client.commands = new Map()
 
-async function updateAvatar() {
+async function updateProfile() {
+    console.log('Updating profile...\n')
+
     const owner = await client.users.fetch(OWNER_ID)
     const avatar = owner.displayAvatarURL({ dynamic: true })
     const banner = owner.bannerURL({ dynamic: true })
@@ -18,7 +20,7 @@ async function updateAvatar() {
     if (!avatar && !banner) return console.log('No avatar or banner found')
 
     if (avatar) {
-        console.log('Updated picture')
+        console.log('Updated avatar')
         await client.user.setAvatar(avatar)
     }
 
@@ -31,12 +33,12 @@ async function updateAvatar() {
 client.on(Events.UserUpdate, (oldUser, newUser) => {
     if (oldUser.id !== OWNER_ID) return
 
-    const avatarDiff = oldUser.displayAvatarURL() !== newUser.displayAvatarURL()
-    const bannerDiff = oldUser.bannerURL() !== newUser.bannerURL()
+    console.log('Owner has updated their profile')
 
-    if (avatarDiff || bannerDiff) {
-        updateAvatar()
-    }
+    const avatarDiff = oldUser.avatar !== newUser.avatar
+    const bannerDiff = oldUser.banner !== newUser.banner
+
+    if (avatarDiff || bannerDiff) updateProfile()
 })
 
 client.once(Events.ClientReady, async () => {
