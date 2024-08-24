@@ -22,17 +22,19 @@ async function updateProfile() {
 
     try {
         await client.user.setAvatar(avatar)
+        console.log('\nAvatar updated successfully')
         await client.user.setBanner(banner)
-        console.log('Profile updated successfully\n')
+        console.log('Banner updated successfully')
+        console.log('\nProfile updated successfully\n')
     } catch (error) {
-        console.error('Failed to update profile', error)
+        console.error('\nFailed to update profile', error)
     }
 }
 
 client.on(Events.UserUpdate, (oldUser, newUser) => {
     if (oldUser.id !== OWNER_ID) return
 
-    console.log('Owner has updated their profile')
+    console.log('Owner has updated their profile\n')
 
     const avatarDiff = oldUser.avatar !== newUser.avatar
     const bannerDiff = oldUser.banner !== newUser.banner
