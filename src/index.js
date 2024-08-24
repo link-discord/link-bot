@@ -43,7 +43,7 @@ client.on(Events.UserUpdate, (oldUser, newUser) => {
 })
 
 client.once(Events.ClientReady, async () => {
-    console.log(`Logged in as ${client.user.tag}\n`)
+    console.log(`Logged in as ${client.user.username}\n`)
 
     const commandFiles = await fs.readdir('./src/commands')
 
