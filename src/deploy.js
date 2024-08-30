@@ -5,6 +5,18 @@ config()
 
 const commands = [
     {
+        name: 'mc',
+        description: 'Pings a Minecraft server',
+        options: [
+            {
+                name: 'host',
+                description: 'The address of the server',
+                type: ApplicationCommandOptionType.String,
+                required: true
+            }
+        ]
+    },
+    {
         name: 'ping',
         description: 'Returns the latency of the bot'
     },
