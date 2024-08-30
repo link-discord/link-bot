@@ -1,6 +1,10 @@
 import { Client, IntentsBitField, Events, Options } from 'discord.js'
 import { shrugEmoji } from './utils/shrugEmoji.js'
+import { setTimeout as sleep } from 'timers/promises'
+import ColorThief from '@yaredfall/color-thief-ts/node'
 import fs from 'fs/promises'
+
+export let AccentColor
 
 const OWNER_ID = '476662199872651264'
 const client = new Client({
@@ -10,15 +14,35 @@ const client = new Client({
 
 client.commands = new Map()
 
+async function updateAccentColor() {
+    const avatar = client.user.avatarURL({
+        size: 4096,
+        forceStatic: true,
+        extension: 'png'
+    })
+
+    const colorThief = new ColorThief()
+
+    const image = await fetch(avatar)
+        .then((response) => response.arrayBuffer())
+        .then((arrayBuffer) => Buffer.from(arrayBuffer))
+
+    const color = await colorThief.getColor({
+        type: 'image/png',
+        buffer: image
+    })
+
+    AccentColor = parseInt(color.substring(1), 16)
+
+    console.log('Updated accent color\n')
+}
+
 async function updateProfile() {
     console.log('Updating profile...\n')
 
     const owner = await client.users.fetch(OWNER_ID, { force: true })
     const avatar = owner.avatarURL({ size: 4096 })
-    const banner = owner.bannerURL({ size: 4096, extension: 'gif' })
-
-    console.log('Avatar:', avatar)
-    console.log('Banner:', banner)
+    const banner = owner.bannerURL({ size: 4096 })
 
     try {
         await client.user.setAvatar(avatar)
@@ -31,7 +55,7 @@ async function updateProfile() {
     }
 }
 
-client.on(Events.UserUpdate, (oldUser, newUser) => {
+client.on(Events.UserUpdate, async (oldUser, newUser) => {
     if (oldUser.id !== OWNER_ID) return
 
     console.log('Owner has updated their profile\n')
@@ -39,7 +63,11 @@ client.on(Events.UserUpdate, (oldUser, newUser) => {
     const avatarDiff = oldUser.avatar !== newUser.avatar
     const bannerDiff = oldUser.banner !== newUser.banner
 
-    if (avatarDiff || bannerDiff) updateProfile()
+    if (avatarDiff || bannerDiff) {
+        await updateProfile()
+        await sleep(5000)
+        await updateAccentColor()
+    }
 })
 
 client.once(Events.ClientReady, async () => {
@@ -54,6 +82,8 @@ client.once(Events.ClientReady, async () => {
 
         client.commands.set(command.name, command)
     }
+
+    await updateAccentColor()
 })
 
 client.on(Events.InteractionCreate, async (interaction) => {

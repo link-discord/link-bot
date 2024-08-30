@@ -2,6 +2,7 @@ import { EmbedBuilder, Colors } from 'discord.js'
 import { translate } from 'bing-translate-api'
 import { thumbsupEmoji } from '../utils/thumbsupEmoji.js'
 import ISO6391 from 'iso-639-1'
+import { AccentColor } from '../index.js'
 
 export default {
     name: 'translate',
@@ -30,7 +31,7 @@ export default {
         const detected = from === 'auto-detect' ? ' (detected)' : ''
         const embed = new EmbedBuilder()
             .setTitle(`${fromLanguage}${detected} to ${toLanguage}`)
-            .setColor(Colors.Blurple)
+            .setColor(AccentColor)
             .addFields([
                 {
                     name: 'Original',

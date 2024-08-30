@@ -100,7 +100,7 @@ export default {
             .setFooter({
                 text: `Language: ${outputJson.language} (${outputJson.version}) | Exit Code: ${outputJson.run.code}`
             })
-            .setColor(outputJson.run.code === 0 ? Colors.Blurple : Colors.Red)
+            .setColor(outputJson.run.code === 0 ? Colors.Green : Colors.Red)
 
         const emoji = outputJson.run.code === 0 ? thumbsupEmoji() : shrugEmoji()
         await modalInteraction.followUp({ content: emoji, embeds: [embed] })

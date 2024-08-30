@@ -13,6 +13,7 @@
   "dependencies": {
     "@gradio/client": "^1.4.0",
     "@huggingface/inference": "^2.8.0",
+    "@yaredfall/color-thief-ts": "^1.1.4",
     "bing-translate-api": "^4.0.2",
     "common-tags": "^1.8.2",
     "discord.js": "^14.15.3",

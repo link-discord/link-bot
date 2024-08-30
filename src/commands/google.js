@@ -3,6 +3,7 @@ import { stripIndents } from 'common-tags'
 import { thumbsupEmoji } from '../utils/thumbsupEmoji.js'
 import { shrugEmoji } from '../utils/shrugEmoji.js'
 import ISO6391 from 'iso-639-1'
+import { AccentColor } from '../index.js'
 
 export default {
     name: 'google',
@@ -58,7 +59,7 @@ export default {
 
             const embed = new EmbedBuilder()
                 .setTitle('Google Search')
-                .setColor(Colors.Blurple).setDescription(stripIndents`
+                .setColor(AccentColor).setDescription(stripIndents`
                     Results for ${inlineCode(query)}
 
                     ${resultsString.join('\n\n')}

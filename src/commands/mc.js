@@ -2,6 +2,7 @@ import { thumbsupEmoji } from '../utils/thumbsupEmoji.js'
 import { shrugEmoji } from '../utils/shrugEmoji.js'
 import { Colors, EmbedBuilder } from 'discord.js'
 import mc from 'minecraft-protocol'
+import { AccentColor } from '../index.js'
 
 export default {
     name: 'mc',
@@ -17,7 +18,7 @@ export default {
 
             const embed = new EmbedBuilder()
                 .setTitle('Minecraft Server Info')
-                .setColor(Colors.Green)
+                .setColor(AccentColor)
                 .addFields([
                     {
                         name: 'Host',
@@ -31,8 +32,6 @@ export default {
                     }
                 ])
                 .setFooter({ text: `Latency: ${info.latency}ms` })
-
-            if (info.favicon) embed.setThumbnail(info.favicon)
 
             await interaction.followUp({
                 content: thumbsupEmoji(),
