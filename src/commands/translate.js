@@ -1,8 +1,8 @@
-import { EmbedBuilder, Colors } from 'discord.js'
+import { EmbedBuilder } from 'discord.js'
 import { translate } from 'bing-translate-api'
 import { thumbsupEmoji } from '../utils/thumbsupEmoji.js'
-import ISO6391 from 'iso-639-1'
 import { AccentColor } from '../index.js'
+import ISO6391 from 'iso-639-1'
 
 export default {
     name: 'translate',

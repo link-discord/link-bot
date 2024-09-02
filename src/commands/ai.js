@@ -1,6 +1,6 @@
 import { HfInference } from '@huggingface/inference'
 import { Client, handle_file } from '@gradio/client'
-import { Colors, EmbedBuilder } from 'discord.js'
+import { EmbedBuilder } from 'discord.js'
 import { thumbsupEmoji } from '../utils/thumbsupEmoji.js'
 import { shrugEmoji } from '../utils/shrugEmoji.js'
 import { AccentColor } from '../index.js'
