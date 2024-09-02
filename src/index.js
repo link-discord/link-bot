@@ -6,7 +6,6 @@ import fs from 'fs/promises'
 
 export let AccentColor
 
-const OWNER_ID = '476662199872651264'
 const client = new Client({
     intents: Object.values(IntentsBitField.Flags),
     makeCache: Options.cacheEverything()
@@ -40,7 +39,7 @@ async function updateAccentColor() {
 async function updateProfile() {
     console.log('Updating profile...\n')
 
-    const owner = await client.users.fetch(OWNER_ID, { force: true })
+    const owner = await client.users.fetch(process.env.OWNER_ID, { force: true })
     const avatar = owner.avatarURL({ size: 4096 })
     const banner = owner.bannerURL({ size: 4096 })
 
@@ -56,7 +55,7 @@ async function updateProfile() {
 }
 
 client.on(Events.UserUpdate, async (oldUser, newUser) => {
-    if (oldUser.id !== OWNER_ID) return
+    if (oldUser.id !== process.env.OWNER_ID) return
 
     console.log('Owner has updated their profile\n')
 
