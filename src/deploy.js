@@ -1,7 +1,4 @@
 import { REST, Routes, ApplicationCommandOptionType } from 'discord.js'
-import { config } from 'dotenv'
-
-config()
 
 const commands = [
     {
@@ -51,32 +48,6 @@ const commands = [
             {
                 name: 'to',
                 description: 'The language to translate to',
-                type: ApplicationCommandOptionType.String,
-                required: false
-            }
-        ]
-    },
-    {
-        name: 'google',
-        description: 'Does a google search and returns the first result',
-        options: [
-            {
-                name: 'query',
-                description: 'The query to search',
-                type: ApplicationCommandOptionType.String,
-                required: true
-            },
-            {
-                name: 'results',
-                description: 'The number of results to show',
-                type: ApplicationCommandOptionType.Integer,
-                min_value: 1,
-                max_value: 10,
-                required: false
-            },
-            {
-                name: 'language',
-                description: 'The language to search in',
                 type: ApplicationCommandOptionType.String,
                 required: false
             }
