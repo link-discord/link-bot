@@ -1,7 +1,6 @@
 import { thumbsupEmoji } from '../utils/thumbsupEmoji.js'
 import { shrugEmoji } from '../utils/shrugEmoji.js'
-import { Colors, EmbedBuilder } from 'discord.js'
-import mc from 'minecraft-protocol'
+import { EmbedBuilder } from 'discord.js'
 import { AccentColor } from '../index.js'
 
 export default {
@@ -14,8 +13,6 @@ export default {
         console.log(`Pinging the server ${host}`)
 
         try {
-            const info = await mc.ping({ host })
-
             const imageUrl = `https://api.loohpjames.com/serverbanner.png?ip=${host}`
 
             const embed = new EmbedBuilder()
