@@ -5,7 +5,7 @@ import { thumbsupEmoji } from '../utils/thumbsupEmoji.js'
 import { shrugEmoji } from '../utils/shrugEmoji.js'
 import { AccentColor } from '../index.js'
 
-const textModel = 'meta-llama/Meta-Llama-3-8B-Instruct'
+const textModel = 'mistralai/Mixtral-8x7B-Instruct-v0.1'
 const imageModel = 'lmms-lab/LLaVA-NeXT-Interleave-Demo'
 
 export default {
