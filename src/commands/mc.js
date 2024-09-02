@@ -16,22 +16,12 @@ export default {
         try {
             const info = await mc.ping({ host })
 
+            const imageUrl = `https://api.loohpjames.com/serverbanner.png?ip=${host}`
+
             const embed = new EmbedBuilder()
                 .setTitle('Minecraft Server Info')
                 .setColor(AccentColor)
-                .addFields([
-                    {
-                        name: 'Host',
-                        value: `${host}`,
-                        inline: true
-                    },
-                    {
-                        name: 'Players',
-                        value: `${info.players.online}/${info.players.max}`,
-                        inline: true
-                    }
-                ])
-                .setFooter({ text: `Latency: ${info.latency}ms` })
+                .setImage(imageUrl)
 
             await interaction.followUp({
                 content: thumbsupEmoji(),
