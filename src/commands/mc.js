@@ -1,7 +1,7 @@
 import { thumbsupEmoji } from '../utils/thumbsupEmoji.js'
 import { shrugEmoji } from '../utils/shrugEmoji.js'
 import { Colors, EmbedBuilder } from 'discord.js'
-import mc from 'minecraft-protocol'
+import puppeteer from 'puppeteer'
 import { AccentColor } from '../index.js'
 
 export default {
@@ -11,36 +11,30 @@ export default {
 
         const host = interaction.options.get('host', true).value
 
-        console.log(`Pinging the server ${host}`)
+        console.log(`Fetching the embed from ${host}`)
 
         try {
-            const info = await mc.ping({ host })
+            const browser = await puppeteer.launch()
+            const page = await browser.newPage()
+            const url = `https://namemc.com/server/${host}/embed`
+            await page.goto(url)
+            const imageBuffer = await page.screenshot()
+            await browser.close()
 
             const embed = new EmbedBuilder()
                 .setTitle('Minecraft Server Info')
                 .setColor(AccentColor)
-                .addFields([
-                    {
-                        name: 'Host',
-                        value: `${host}`,
-                        inline: true
-                    },
-                    {
-                        name: 'Players',
-                        value: `${info.players.online}/${info.players.max}`,
-                        inline: true
-                    }
-                ])
-                .setFooter({ text: `Latency: ${info.latency}ms` })
+                .setImage('attachment://screenshot.png')
 
             await interaction.followUp({
                 content: thumbsupEmoji(),
-                embeds: [embed]
+                embeds: [embed],
+                files: [{ attachment: imageBuffer, name: 'screenshot.png' }]
             })
         } catch (error) {
-            console.error('Failed to ping the server', error)
+            console.error('Failed to fetch the embed', error)
             await interaction.followUp({
-                content: `Failed to ping the server ${shrugEmoji()}`,
+                content: `Failed to fetch the embed ${shrugEmoji()}`,
                 ephemeral: true
             })
             return
