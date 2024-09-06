@@ -11,7 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@gradio/client": "^1.5.1",
+    "@gradio/client": "^1.5.2",
     "@huggingface/inference": "^2.8.0",
     "@yaredfall/color-thief-ts": "^1.1.4",
     "bing-translate-api": "^4.0.2",
