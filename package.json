@@ -12,7 +12,7 @@
   "description": "",
   "dependencies": {
     "@gradio/client": "^1.5.1",
-    "@huggingface/inference": "^2.8.0",
+    "@huggingface/inference": "^2.8.1",
     "@yaredfall/color-thief-ts": "^1.1.4",
     "bing-translate-api": "^4.0.2",
     "common-tags": "^1.8.2",
