@@ -33,7 +33,7 @@ export default {
                         ]
                     }
                 ],
-                max_tokens: 2000
+                max_tokens: 1500
             })
 
             response = data.choices[0].message.content
@@ -41,7 +41,7 @@ export default {
             const data = await inference.chatCompletion({
                 model: textModel,
                 messages: [{ role: 'user', content: msg }],
-                max_tokens: 2000
+                max_tokens: 1500
             })
 
             response = data.choices[0].message.content
