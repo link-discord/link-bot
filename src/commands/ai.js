@@ -1,12 +1,10 @@
 import { HfInference } from '@huggingface/inference'
-import { Client, handle_file } from '@gradio/client'
 import { EmbedBuilder } from 'discord.js'
 import { thumbsupEmoji } from '../utils/thumbsupEmoji.js'
-import { shrugEmoji } from '../utils/shrugEmoji.js'
 import { AccentColor } from '../index.js'
 
-const textModel = 'mistralai/Mixtral-8x7B-Instruct-v0.1'
-const imageModel = 'lmms-lab/LLaVA-NeXT-Interleave-Demo'
+const textModel = 'meta-llama/Llama-3.2-3B-Instruct'
+const imageModel = 'meta-llama/Llama-3.2-11B-Vision-Instruct'
 
 export default {
     name: 'ai',
@@ -18,47 +16,32 @@ export default {
 
         let response = null
 
+        const inference = new HfInference(process.env.HUGGINGFACE_TOKEN)
+
         if (attachment) {
-            try {
-                const llava = await Client.connect(imageModel)
-                const file = handle_file(attachment.url)
-
-                await llava.predict('/add_message', {
-                    history: [],
-                    message: {
-                        text: msg,
-                        files: [file]
-                    }
-                })
-
-                const result = await llava.predict('/bot_response', {
-                    history: [
-                        [
+            const data = await inference.chatCompletion({
+                model: imageModel,
+                messages: [
+                    {
+                        role: 'user',
+                        content: [
+                            { type: 'image_url', image_url: { url: attachment.url } },
                             {
-                                file,
-                                alt_text: null
-                            },
-                            null
-                        ],
-                        [msg, null]
-                    ]
-                })
+                                type: 'text',
+                                text: msg
+                            }
+                        ]
+                    }
+                ],
+                max_tokens: 2000
+            })
 
-                response = result.data.flat()[1][1]
-            } catch (error) {
-                console.error(error)
-                await interaction.followUp({
-                    content: `An error occurred trying to process the image ${shrugEmoji()}`,
-                    ephemeral: true
-                })
-                return
-            }
+            response = data.choices[0].message.content
         } else {
-            const inference = new HfInference(process.env.HUGGINGFACE_TOKEN)
             const data = await inference.chatCompletion({
                 model: textModel,
                 messages: [{ role: 'user', content: msg }],
-                max_tokens: 2048
+                max_tokens: 2000
             })
 
             response = data.choices[0].message.content
